@@ -2,18 +2,16 @@ import { Get, Injectable, Post } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ArticleDocument } from './schema/article.schema';
+import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 
 @Injectable()
 export class ArticleService {
   constructor(@InjectModel('Article') private articleModule: Model<ArticleDocument>) {}
 
-  /**
-   * 获取文章列表
-   * @returns Array
-   */
-  @Get()
-  async getArticleList() {
-    const list = await this.articleModule.find()
+  
+  async getArticleList(pagination: PaginationDto) {
+    const { currentPage, pageSize, offset } = pagination;
+    const list = await this.articleModule.find().skip(currentPage).limit(pageSize)
     return list || []
   }
 

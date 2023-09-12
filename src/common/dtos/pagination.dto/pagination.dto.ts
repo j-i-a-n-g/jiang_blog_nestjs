@@ -4,14 +4,14 @@ import { IsNumber, IsOptional, Min } from 'class-validator';
 export class PaginationDto {
   
   @IsNumber()
-  @IsOptional() 
+  @IsOptional()
   @Type(() => Number)
-  currentPage: number; // 第几页
+  currentPage: number = 1; // 第几页
 
   @IsNumber()
   @IsOptional()
   @Type(() => Number)
-  pageSize: number; // 条数
+  pageSize: number = 20; // 条数
 
   @IsNumber()
   @IsOptional()
