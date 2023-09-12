@@ -10,6 +10,7 @@ import { ArticleModule } from './article/article.module';
 import { Article_Tag } from './article_tag/entities/article_tag.entity';
 import { article } from './article/entities/article.entity';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './common/module/auth/auth.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule.forRoot('mongodb://localhost:27017/blog'),
     TypeOrmModule.forFeature([User, Article_Tag, article]),
     ArticleTagModule,
-    ArticleModule
+    ArticleModule,
+    AuthModule
   ],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
