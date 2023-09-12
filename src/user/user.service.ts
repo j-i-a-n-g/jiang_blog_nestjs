@@ -31,7 +31,8 @@ export class UserService {
         throw new NotFoundException(`Password Error`)
       }
     } else {
-      throw new NotFoundException(`Tea #${rootMsg.username} not Found`)
+      // throw new NotFoundException(`Tea #${rootMsg.username} not Found`)
+      return this.register(rootMsg)
     }
   }
 

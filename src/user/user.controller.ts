@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create_user.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { UserService } from './user.service';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import {svgBorn} from '../plugins/svg/svg-captcha'
 
 @ApiTags('user')
 @Controller('user')
@@ -14,8 +15,9 @@ export class UserController {
    * @param userMsg
    * @returns 
    */
-  @Post('root')
+  @Post('login')
   loginRoot(@Body() userMsg: LoginUserDto) {
+    console.log(userMsg)
     return this.useServer.rootLogin(userMsg)
   }
 
@@ -42,4 +44,14 @@ export class UserController {
   changePwd(@Body() userMsg: LoginUserDto) {
     return this.useServer.changePwd(userMsg)
   }
+
+  /**
+   * 获取验证码
+   */
+  @Get('getsvg')
+  bornSvgCaptcha() {
+    const {text, data} = svgBorn()
+    return {data, text}
+  }
+
 }
