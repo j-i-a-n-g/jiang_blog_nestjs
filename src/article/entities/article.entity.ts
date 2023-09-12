@@ -37,7 +37,10 @@ export class article {
   updateTime: Date;
 
   @Column()
-  fileUrl: string;
+  articleImgUrl: string;
+
+  @Column()
+  articleFileUrl: string;
 
   @ManyToMany(() =>Article_Tag, (post) => post.tag)
   posts: Array<Article_Tag>

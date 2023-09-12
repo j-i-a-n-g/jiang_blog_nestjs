@@ -1,4 +1,4 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, IsOptional } from "class-validator";
 import { Article_Tag } from "src/article_tag/entities/article_tag.entity";
 
 export class ArticleDto {
@@ -6,8 +6,20 @@ export class ArticleDto {
   @IsNotEmpty()
   author: string;
 
-  fileStream: string;
+  articleTitle: string;
 
-  tagList: Array<Article_Tag>
+  articleDesc: string;
+
+  createDate: Date;
+
+  @IsOptional()
+  articleHot: boolean = false;
+
+  articleFileUrl: string;
+
+  articleImgUrl: string;
+
+  @IsOptional()
+  tagList: Array<Article_Tag> = [];
 
 }
