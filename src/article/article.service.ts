@@ -1,3 +1,4 @@
+import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -12,6 +13,7 @@ export class ArticleService {
   constructor(
     @InjectModel('Article') 
     private articleModule: Model<ArticleDocument>,
+    @InjectRepository(article)
     private articleEntity: Repository<article>
   ) {}
 

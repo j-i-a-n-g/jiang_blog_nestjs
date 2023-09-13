@@ -4,9 +4,12 @@ import { ValidationPipe } from '@nestjs/common/pipes';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  // 适当地设置 HTTP 头, 避免适当地设置 HTTP 头
+  app.use(helmet())
   const options = new DocumentBuilder()
     .setTitle('BLOG_NODE 2.0')
     .setDescription('blog api for jiangBlog writed by nestjs')

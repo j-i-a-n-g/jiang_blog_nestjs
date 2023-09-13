@@ -2,8 +2,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create_user.dto';
 import { LoginUserDto } from './dto/login.dto';
 import { UserService } from './user.service';
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import {svgBorn} from '../plugins/svg/svg-captcha'
+import { LocalAuthGuard } from 'src/common/module/auth/guard/auth.guard';
 
 @ApiTags('user')
 @Controller('user')
@@ -40,6 +41,7 @@ export class UserController {
   /**
    * 用户重置密码
    */
+  @UseGuards(LocalAuthGuard)
   @Post('resetPwd')
   changePwd(@Body() userMsg: LoginUserDto) {
     return this.useServer.changePwd(userMsg)
