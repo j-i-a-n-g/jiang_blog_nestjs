@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 import { ArticleFileDto } from './dto/articleFile.dto';
@@ -23,6 +23,9 @@ export class ArticleController {
    * 保存新文章
    */
   @Post('saveArticle')
+  @ApiBody({
+    type: ArticleDto
+   })
   async saveArticle(@Body() articledto: ArticleDto) {
     return await this.articleService.saveArticle(articledto)
   }
