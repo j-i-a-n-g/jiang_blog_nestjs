@@ -7,6 +7,7 @@ import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 import { ArticleDto } from './dto/article.dto/article.dto';
 import { article } from './entities/article.entity';
 import { Repository } from 'typeorm';
+import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 
 @Injectable()
 export class ArticleService {
@@ -20,8 +21,17 @@ export class ArticleService {
   
   async getArticleList(pagination: PaginationDto) {
     const { currentPage, pageSize, offset } = pagination;
+    const total: number = await this.articleModule.countDocuments()
     const list = await this.articleModule.find().skip(currentPage).limit(pageSize)
-    return list || []
+    let pageMsg : pageMsgDto = {
+      currentPage,
+      pageSize,
+      total
+    }
+    return {
+      pagination: pageMsg,
+      list: list || []
+    }
   }
 
   async saveArticle(articledto: ArticleDto) {
