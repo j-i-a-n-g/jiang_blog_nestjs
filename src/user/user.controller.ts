@@ -70,4 +70,12 @@ export class UserController {
     return {data, text}
   }
 
+  /**
+   * 管理员登录
+   */
+  @Post('rootLogin')
+  rootLogin() {
+    return '登录成功'
+  }
+
 }
