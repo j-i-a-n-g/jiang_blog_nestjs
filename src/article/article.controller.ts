@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors, Param } from '@nestjs/common';
+import { ArticleChangeDto } from './dto/articleChange.dto';
+import { Body, Controller, Get, Post, Query, UploadedFile, UseInterceptors, Param, Delete, HttpException } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { ArticleService } from './article.service';
 import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
@@ -40,6 +41,26 @@ export class ArticleController {
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     // 未完善，需要根据文章id，保存文件路径
     return await saveFile(file)
+  }
+
+  @Delete('deleteArticle')
+  async deleteArticle(@Param('id') id: string) {
+    let reuslt =  await this.articleService.deleteArticle(id)
+    if(!reuslt) {
+      return new HttpException('删除失败，查无此文件', 500)
+    }
+    return reuslt
+  }
+
+  /**
+   * 对文章标题或者内容的修改
+   */
+  @Post('reviseArticleTitle')
+  @ApiBody({
+    type: ArticleChangeDto,
+  })
+  async reviseArticleTitle(@Body() articleChangeDto: ArticleChangeDto) {
+    return await this.articleService.reviseArticleTitle(articleChangeDto)
   }
   /**
    * 删除上传的文章文件

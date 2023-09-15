@@ -5,15 +5,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse();
-    // const request = ctx.getRequest();
     const message = exception.message;
     const errorResponse = {
-      data: {
-         error: message,
-        }, // 获取全部的错误信息
-      message: '请求出错',
-      code: exception.getStatus(), // 自定义code
-      // url: request.originalUrl, // 错误的url地址
+      data: null,
+      message: message || '请求出错',
+      code: exception.getStatus() || 500, // 自定义code
     };
     const status =
       exception instanceof HttpException

@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ArticleDocument } from './schema/article.schema';
@@ -8,6 +8,7 @@ import { ArticleDto } from './dto/article.dto/article.dto';
 import { article } from './entities/article.entity';
 import { Repository } from 'typeorm';
 import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
+import { ArticleChangeDto } from './dto/articleChange.dto';
 
 @Injectable()
 export class ArticleService {
@@ -62,6 +63,29 @@ export class ArticleService {
       articleid: sqlArticle.id
     })
     return modleArticle
+  }
+  /**
+   * 删除文章
+   */
+  async deleteArticle(id: string) {
+    return await this.articleModule.findByIdAndDelete(id)
+  }
+
+  /**
+   * 修改文章的标题或者内容
+   */
+  async reviseArticleTitle(articleChangeDto: ArticleChangeDto) {
+    try {
+      let { _id, articleTitle, articleDesc } = articleChangeDto
+      let result = await this.articleModule.updateOne({_id}, {articleTitle, articleDesc})
+      if(result.modifiedCount > 0) {
+        return null
+      } else {
+        return new HttpException('修改失败，稍后重试', 500)
+      }
+    } catch (error) {
+      return error
+    }
   }
   /**
    * 修改文章推荐状态
