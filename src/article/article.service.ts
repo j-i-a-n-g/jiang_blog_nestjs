@@ -2,6 +2,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ObjectId } from 'mongodb';
 import { ArticleDocument } from './schema/article.schema';
 import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 import { ArticleDto } from './dto/article.dto/article.dto';
@@ -9,6 +10,7 @@ import { article } from './entities/article.entity';
 import { Repository } from 'typeorm';
 import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 import { ArticleChangeDto } from './dto/articleChange.dto';
+import { Article_Tag } from 'src/article_tag/entities/article_tag.entity';
 
 @Injectable()
 export class ArticleService {
@@ -16,7 +18,9 @@ export class ArticleService {
     @InjectModel('Article') 
     private articleModule: Model<ArticleDocument>,
     @InjectRepository(article)
-    private articleEntity: Repository<article>
+    private articleEntity: Repository<article>,
+    @InjectRepository(Article_Tag)
+    private articleTag: Repository<Article_Tag>
   ) {}
 
   
@@ -85,6 +89,33 @@ export class ArticleService {
       }
     } catch (error) {
       return error
+    }
+  }
+
+  /**
+   * 获取文章相关的tag
+   */
+
+  async getArticleTagList(id: string) {
+    const objectId = new ObjectId(id);
+    let loop = await this.articleModule.findById(objectId) as any
+    console.log(loop)
+    console.log(loop.articleTagList)
+    if(loop && loop.articleTagList) {
+      let tagsList = loop.articleTagList
+      let result = []
+      for(let i = 0; i < tagsList.length; i++) {
+        let tagObj = await this.articleTag.findOne({
+          where: {
+            tagName: tagsList[i].tagName
+          }
+        })
+        result.push(tagObj)
+      }
+      console.log(result)
+      return result
+    } else {
+      return loop
     }
   }
   /**

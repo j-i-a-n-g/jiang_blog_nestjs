@@ -25,4 +25,12 @@ export class ArticleTagService {
     })
   }
 
+  /**
+   * 获取所有的tag
+   */
+  async getTagList() {
+    let result = await this.articleTag.find()
+    return result
+  }
+
 }

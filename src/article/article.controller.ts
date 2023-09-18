@@ -62,6 +62,15 @@ export class ArticleController {
   async reviseArticleTitle(@Body() articleChangeDto: ArticleChangeDto) {
     return await this.articleService.reviseArticleTitle(articleChangeDto)
   }
+
+    /**
+   * 获取文章相关的tag
+   */
+
+    @Get('getArticleTagList')
+    async getArticleTagList(@Query() id: string) {
+      return await this.articleService.getArticleTagList(id)
+    }
   /**
    * 删除上传的文章文件
    */

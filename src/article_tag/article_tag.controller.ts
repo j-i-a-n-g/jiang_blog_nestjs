@@ -24,6 +24,11 @@ export class ArticleTagController {
     return await this.articleTagService.createNewTag(articleTag)
   }
 
+  @Get('getTagList')
+  async getTagList() {
+    return await this.articleTagService.getTagList()
+  }
+
   @Get('redict')
   @Redirect('http://localhost:3001')
   test() {
