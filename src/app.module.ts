@@ -51,7 +51,7 @@ const moment = require('moment')
               prettyPrint: true,
             }),
           ),
-          filename: join(process.cwd(), `/log/nest-${moment().format('yyyy-MM-DD')}log`)
+          filename: join(process.cwd(), `/log/nest-${moment().format('yyyy-MM-DD')}.txt`)
         }),
       ],
     }),
