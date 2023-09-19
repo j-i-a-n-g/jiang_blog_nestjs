@@ -42,6 +42,6 @@ export class article {
   @Column()
   articleFileUrl: string;
 
-  @ManyToMany(() =>Article_Tag, (post) => post.tag)
+  @ManyToMany(() =>Article_Tag, (post) => post.id)
   posts: Array<Article_Tag>
 }

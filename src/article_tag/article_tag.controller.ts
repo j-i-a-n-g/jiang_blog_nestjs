@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Redirect } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, Param } from '@nestjs/common';
 import { ArticleTagService } from './article_tag.service';
 import { ArticleTagDto } from './dto/article_tag.dto/article_tag.dto';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
+import { Query } from 'mongoose';
 
 @ApiTags('articleTag')
 @Controller('articleTag')
@@ -33,5 +34,15 @@ export class ArticleTagController {
   @Redirect('http://localhost:3001')
   test() {
     return {url: 'http://localhost:3000/articleTag'}
+  }
+
+  @Post('addTag')
+  async addTag(@Body() tagDto: ArticleTagDto) {
+    return await this.articleTagService.addTag(tagDto)
+  }
+
+  @Get('deleteTag')
+  async deleteTag(@Param() id: string) {
+    return await this.articleTagService.deleteTag(id)
   }
 }

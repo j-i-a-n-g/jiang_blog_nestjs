@@ -11,7 +11,7 @@ import {
 @Entity()
 export class Article_Tag {
   @PrimaryGeneratedColumn()
-  tag: number;
+  id: string;
 
   @Column()
   tagName: string;
