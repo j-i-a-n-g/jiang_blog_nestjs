@@ -8,7 +8,7 @@ import { User } from './user/entities/user.entity';
 import { ArticleTagModule } from './article_tag/article_tag.module';
 import { ArticleModule } from './article/article.module';
 import { Article_Tag } from './article_tag/entities/article_tag.entity';
-import { article } from './article/entities/article.entity';
+import { ArticleEntity } from './article/entities/article.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './common/module/auth/auth.module';
 import { Article, ArticleSchema } from './article/schema/article.schema';
@@ -56,7 +56,7 @@ const moment = require('moment')
       ],
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/blog'),
-    TypeOrmModule.forFeature([User, Article_Tag, article]),
+    TypeOrmModule.forFeature([User, Article_Tag, ArticleEntity]),
     MongooseModule.forFeature([{name: Article.name, schema: ArticleSchema}]),
     ArticleTagModule,
     AuthModule,

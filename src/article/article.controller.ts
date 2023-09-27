@@ -8,14 +8,16 @@ import { ArticleDto } from './dto/article.dto/article.dto';
 import { Express } from 'express'
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as iconv from 'iconv-lite';
-import { saveFile } from 'src/common/helper';
+// import { saveFile } from 'src/common/helper';
 import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
+import { AuthService } from 'src/common/module/auth/auth.service';
 
 @ApiTags('article')
 @Controller('article')
 export class ArticleController {
   constructor(
-    private readonly articleService: ArticleService
+    private readonly articleService: ArticleService,
+    private readonly authService: AuthService
   ) {}
   /**
    * 获取文章列表
@@ -41,7 +43,7 @@ export class ArticleController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {
     // 未完善，需要根据文章id，保存文件路径
-    return await saveFile(file)
+    return await this.authService.saveFile(file)
   }
 
   @Delete('deleteArticle')

@@ -1,4 +1,4 @@
-import { article } from "src/article/entities/article.entity";
+import { ArticleEntity } from "src/article/entities/article.entity";
 import { 
   Entity,
   PrimaryGeneratedColumn,
@@ -34,6 +34,6 @@ export class Article_Tag {
   )
   updateTime: Date;
 
-  @ManyToMany(() => article)
-  post: Array<article>
+  @ManyToMany(() => ArticleEntity)
+  post: Array<ArticleEntity>
 }

@@ -11,6 +11,9 @@ export class User {
   id: number;
 
   @Column()
+  userTag: string
+
+  @Column()
   username: string;
 
   @Column()

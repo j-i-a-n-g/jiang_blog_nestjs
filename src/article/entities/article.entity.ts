@@ -11,7 +11,7 @@ import {
 
 
 @Entity()
-export class article {
+export class ArticleEntity {
   
   @PrimaryGeneratedColumn()
   id: Schema.Types.ObjectId;

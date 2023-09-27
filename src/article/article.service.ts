@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { ArticleDocument } from './schema/article.schema';
 import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 import { ArticleDto } from './dto/article.dto/article.dto';
-import { article } from './entities/article.entity';
+import { ArticleEntity } from './entities/article.entity';
 import { ObjectId, Repository } from 'typeorm';
 import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 import { ArticleChangeDto } from './dto/articleChange.dto';
@@ -17,8 +17,8 @@ export class ArticleService {
   constructor(
     @InjectModel('Article') 
     private articleModule: Model<ArticleDocument>,
-    @InjectRepository(article)
-    private articleEntity: Repository<article>,
+    @InjectRepository(ArticleEntity)
+    private articleEntity: Repository<ArticleEntity>,
     @InjectRepository(Article_Tag)
     private articleTag: Repository<Article_Tag>
   ) {}
