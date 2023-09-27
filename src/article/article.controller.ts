@@ -9,6 +9,7 @@ import { Express } from 'express'
 import { FileInterceptor } from '@nestjs/platform-express';
 import * as iconv from 'iconv-lite';
 import { saveFile } from 'src/common/helper';
+import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
 
 @ApiTags('article')
 @Controller('article')
@@ -66,11 +67,26 @@ export class ArticleController {
     /**
    * 获取文章相关的tag
    */
+  @Get('getArticleTagList')
+  async getArticleTagList(@Query('id') id: string) {
+    return await this.articleService.getArticleTagList(id)
+  }
 
-    @Get('getArticleTagList')
-    async getArticleTagList(@Query() id: string) {
-      return await this.articleService.getArticleTagList(id)
-    }
+  /**
+   * 修改文章的推荐状态
+   */
+  @Post('changeArticleHot')
+  async changeArticleHot(@Body() article: ArticleDto) {
+    return await this.articleService.changeArticleHot(article)
+  }
+
+  /**
+   * 修改文章的关联tag
+   */
+  @Post('reviseArticleTagList')
+  async reviseArticleTagList(@Body()  article: ArticleTagChangeDto) {
+    return await this.articleService.reviseArticleTagList(article)
+  }
   /**
    * 删除上传的文章文件
    */

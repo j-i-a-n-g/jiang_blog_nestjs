@@ -2,15 +2,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ObjectId } from 'mongodb';
 import { ArticleDocument } from './schema/article.schema';
 import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 import { ArticleDto } from './dto/article.dto/article.dto';
 import { article } from './entities/article.entity';
-import { Repository } from 'typeorm';
+import { ObjectId, Repository } from 'typeorm';
 import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 import { ArticleChangeDto } from './dto/articleChange.dto';
 import { Article_Tag } from 'src/article_tag/entities/article_tag.entity';
+import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
 
 @Injectable()
 export class ArticleService {
@@ -97,8 +97,7 @@ export class ArticleService {
    */
 
   async getArticleTagList(id: string) {
-    const objectId = new ObjectId(id);
-    let loop = await this.articleModule.findById(objectId) as any
+    let loop = await this.articleModule.findById(id) as any
     console.log(loop)
     console.log(loop.articleTagList)
     if(loop && loop.articleTagList) {
@@ -121,9 +120,26 @@ export class ArticleService {
   /**
    * 修改文章推荐状态
    */
-  // @Post()
-  // async changeArticleHot(params:type) => {
-    
-  // }
+  async changeArticleHot(article: ArticleDto) {
+    let { id, articleHot } = article
+    let result = await this.articleModule.updateOne({id}, {articleHot})
+    console.log(result)
+    return result
+  }
+
+  /**
+   * 修改文章的相关Tag
+   */
+  async reviseArticleTagList(article: ArticleTagChangeDto) {
+    try {
+      let { id, tagList } = article
+      console.log(id, tagList)
+      let result = await this.articleModule.updateOne({id}, {tagList})
+      console.log(result)
+      return result
+    } catch (error) {
+      return error
+    }
+  }
 
 }

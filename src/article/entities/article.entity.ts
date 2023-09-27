@@ -1,3 +1,4 @@
+import { Schema } from "mongoose";
 import { Article_Tag } from "src/article_tag/entities/article_tag.entity";
 import { 
   Entity,
@@ -13,7 +14,7 @@ import {
 export class article {
   
   @PrimaryGeneratedColumn()
-  id: number;
+  id: Schema.Types.ObjectId;
 
   @Column()
   author: string;

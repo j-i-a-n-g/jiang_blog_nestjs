@@ -5,6 +5,9 @@ import { Article_Tag } from "src/article_tag/entities/article_tag.entity";
 export class ArticleDto {
 
   @IsNotEmpty()
+  id: string;
+  
+  @IsNotEmpty()
   @ApiProperty({required: true, description: '作者'})
   author: string;
 

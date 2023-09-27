@@ -26,7 +26,7 @@ async function bootstrap() {
       enableImplicitConversion: true // 不需要使用@Type()显示指定类型，这里会进行默认转换
     }
   }))
-  app.useGlobalFilters(new HttpExceptionFilter())
+  // app.useGlobalFilters(new HttpExceptionFilter())
   app.useGlobalInterceptors(new ResponseInterceptor())
   await app.listen(3000);
 }
