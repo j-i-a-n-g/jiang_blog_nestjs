@@ -10,9 +10,12 @@ export class LoggerMiddleware implements NestMiddleware {
       const statusCode = res.statusCode;
       // 这里可以根据需要将日志记录到日志文件、数据库等
       let message = 
-      `Request URL: ${req.originalUrl}
+      `
+       ---------------------------------------------------------------------------------
+       Request URL: ${req.originalUrl}
        Request Time: ${new Date()}
        Status Code: ${statusCode}
+       ---------------------------------------------------------------------------------
       `
       this.logger.log(message)
     });

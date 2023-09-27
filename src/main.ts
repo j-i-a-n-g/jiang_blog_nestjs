@@ -5,6 +5,7 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,7 +27,8 @@ async function bootstrap() {
       enableImplicitConversion: true // 不需要使用@Type()显示指定类型，这里会进行默认转换
     }
   }))
-  // app.useGlobalFilters(new HttpExceptionFilter())
+  const loggerService = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useGlobalFilters(new HttpExceptionFilter(loggerService))
   app.useGlobalInterceptors(new ResponseInterceptor())
   await app.listen(3000);
 }
