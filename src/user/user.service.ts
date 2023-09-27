@@ -4,14 +4,14 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { LoginUserDto } from './dto/login.dto';
-import { AuthService } from 'src/common/module/auth/auth.service';
+// import { AuthService } from 'src/common/module/auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private userEntity: Repository<User>,
-    private readonly authService: AuthService
+    // private readonly authService: AuthService
   ) {}
 
   async rootLogin(rootMsg: LoginUserDto) {
@@ -49,7 +49,7 @@ export class UserService {
 
     let userObj = {
       username,
-      userTag: this.authService.generateRandomString('USER', 12),
+      // userTag: this.authService.generateRandomString('USER', 12),
       password,
       userAvatar: '',
       createDate: new Date(),
