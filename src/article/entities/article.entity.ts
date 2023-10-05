@@ -10,11 +10,14 @@ import {
  } from "typeorm";
 
 
-@Entity()
+@Entity({name: 'article'})
 export class ArticleEntity {
   
   @PrimaryGeneratedColumn()
-  id: Schema.Types.ObjectId;
+  id: number;
+
+  @Column()
+  articleId: string;
 
   @Column()
   author: string;
@@ -35,13 +38,13 @@ export class ArticleEntity {
       name: 'updateTime'
     }
   )
-  updateTime: Date;
+  updateTime: Date | null;
 
-  @Column()
-  articleImgUrl: string;
+  @Column({nullable: true})
+  articleImgUrl: string | null;
 
-  @Column()
-  articleFileUrl: string;
+  @Column({nullable: true})
+  articleFileUrl: string | null;
 
   @ManyToMany(() =>Article_Tag, (post) => post.id)
   posts: Array<Article_Tag>

@@ -28,6 +28,20 @@ export class ArticleService {
     const { currentPage, pageSize, offset } = pagination;
     const total: number = await this.articleModule.countDocuments()
     const list = await this.articleModule.find().skip(currentPage).limit(pageSize)
+    // for(let i = 0; i < list.length; i++) {
+      // let result = await this.articleEntity.create({
+      //   author: 'lijiang',
+      //   articleId: JSON.stringify(list[i]._id),
+      //   articleImgUrl: list[i].articleImgUrl,
+      //   articleFileUrl: list[i].articleFileUrl,
+      // })
+      // await this.articleEntity.save(result)
+      // let res = await this.articleEntity.findOne({
+      //   where: {
+      //     id: list[i]._id
+      //   }
+      // })
+    // }
     let pageMsg : pageMsgDto = {
       currentPage,
       pageSize,
@@ -35,7 +49,7 @@ export class ArticleService {
     }
     return {
       pagination: pageMsg,
-      list: list || []
+      list: list || [],
     }
   }
 
