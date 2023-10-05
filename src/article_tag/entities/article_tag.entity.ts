@@ -14,6 +14,9 @@ export class Article_Tag {
   id: string;
 
   @Column()
+  tag: string
+
+  @Column()
   tagName: string;
 
   @CreateDateColumn(

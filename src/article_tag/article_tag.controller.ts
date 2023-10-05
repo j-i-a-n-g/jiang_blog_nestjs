@@ -42,7 +42,7 @@ export class ArticleTagController {
   }
 
   @Get('deleteTag')
-  async deleteTag(@Param() id: string) {
-    return await this.articleTagService.deleteTag(id)
+  async deleteTag(@Param('tag') tag: string) {
+    return await this.articleTagService.deleteTag(tag)
   }
 }

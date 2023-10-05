@@ -3,12 +3,14 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { Article_Tag } from './entities/article_tag.entity';
 import { Repository } from 'typeorm/repository/Repository';
 import { ArticleTagDto } from './dto/article_tag.dto/article_tag.dto';
+import { AuthService } from 'src/common/module/auth/auth.service';
 
 @Injectable()
 export class ArticleTagService {
   constructor(
     @InjectRepository(Article_Tag)
-    private articleTag: Repository<Article_Tag>
+    private articleTag: Repository<Article_Tag>,
+    private readonly authService: AuthService
   ){}
 
   async getAllTag() {
@@ -36,19 +38,20 @@ export class ArticleTagService {
    * 添加tag
    */
   async addTag(tagDto: ArticleTagDto) {
+    tagDto.tag = this.authService.generateRandomString('ARTAG', 12)
     let tag = await this.articleTag.create(tagDto)
     return await this.articleTag.save(tag)
   }
   /**
    * 删除tag
    */
-  async deleteTag(id: string) {
-    // const entity = await this.articleTag.delete({ id });
-    // if(entity){
-    //     return '删除成功'
-    // } else {
-    //   return new HttpException('删除失败', 500)
-    // }
+  async deleteTag(tag: string) {
+    const entity = await this.articleTag.delete({ tag });
+    if(entity){
+        return '删除成功'
+    } else {
+      return new HttpException('删除失败', 500)
+    }
   }
 
 }

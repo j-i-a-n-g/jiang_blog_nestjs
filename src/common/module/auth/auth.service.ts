@@ -47,13 +47,10 @@ export class AuthService {
    * @returns string
    */
   generateRandomString(startStr: string = "", length: number = 12) : string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let randomString : string = startStr;
-    let startlen = 0;
-    if(startStr) {
-      startlen = startStr.length
-    }
-    for(let i = 0; i < length - startlen; i++) {
+    // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const characters = '0123456789';
+    let randomString : string = startStr + '-';
+    for(let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
       randomString += characters.charAt(randomIndex);
     }
