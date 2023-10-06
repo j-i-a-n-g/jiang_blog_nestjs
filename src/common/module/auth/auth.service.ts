@@ -36,12 +36,12 @@ export class AuthService {
       fileName = Date.now() + decodedName
       dirPath = path.join(__dirname, '../../public/' + origin)
       filePath = path.join(__dirname, `../../public/${origin}/${fileName}`)
-      absolutePath = `/public/${origin}/${fileName}`
+      absolutePath = `/static/${origin}/${fileName}`
     } else {
       fileName = Date.now() + decodedName
       dirPath = path.dirname(path.join(__dirname, '../../public/articleFile'));
       filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
-      absolutePath = '/public/articleFile/' + fileName
+      absolutePath = '/static/articleFile/' + fileName
     }
     return new Promise((res, rej) => {
       if (!fs.existsSync(dirPath)) {
