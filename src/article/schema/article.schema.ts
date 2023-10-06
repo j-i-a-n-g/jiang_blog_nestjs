@@ -11,8 +11,10 @@ export class Article extends Document {
   @Prop({ required: true })
   articleTitle: string;
 
-  articleImgUrl: string
+  @Prop({ required: true })
+  articleImgUrl: string | null
 
+  @Prop()
   articleDate: Date
 
   @Prop({ required: true })

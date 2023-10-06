@@ -89,6 +89,20 @@ export class ArticleController {
   async reviseArticleTagList(@Body()  article: ArticleTagChangeDto) {
     return await this.articleService.reviseArticleTagList(article)
   }
+
+  @Post('reviseArticleImg')
+  @UseInterceptors(FileInterceptor('file'))
+  async reviseArticleImg(
+    @UploadedFile() file: Express.Multer.File,
+    @Body('id') id: string,
+    @Body('articleImgUrl') articleImgUrl: string | null,
+  ) {
+    return this.authService.saveFile(file, 'articleImg').then((path) => {
+      return this.articleService.changeArticleImgPath(path, id)
+    }).catch((err) => {
+      return err
+    })
+  }
   /**
    * 删除上传的文章文件
    */

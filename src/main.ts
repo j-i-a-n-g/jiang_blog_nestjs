@@ -27,8 +27,8 @@ async function bootstrap() {
       enableImplicitConversion: true // 不需要使用@Type()显示指定类型，这里会进行默认转换
     }
   }))
-  const loggerService = app.get(WINSTON_MODULE_NEST_PROVIDER);
-  app.useGlobalFilters(new HttpExceptionFilter(loggerService))
+  // const loggerService = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  // app.useGlobalFilters(new HttpExceptionFilter(loggerService))
   app.useGlobalInterceptors(new ResponseInterceptor())
   await app.listen(3000);
 }

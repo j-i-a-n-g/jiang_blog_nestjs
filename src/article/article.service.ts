@@ -6,11 +6,12 @@ import { ArticleDocument } from './schema/article.schema';
 import { PaginationDto } from 'src/common/dtos/pagination.dto/pagination.dto';
 import { ArticleDto } from './dto/article.dto/article.dto';
 import { ArticleEntity } from './entities/article.entity';
-import { ObjectId, Repository } from 'typeorm';
+import { Repository, ObjectId } from 'typeorm';
 import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 import { ArticleChangeDto } from './dto/articleChange.dto';
 import { Article_Tag } from 'src/article_tag/entities/article_tag.entity';
 import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
+let mongoose=require('mongoose');
 
 @Injectable()
 export class ArticleService {
@@ -29,18 +30,13 @@ export class ArticleService {
     const total: number = await this.articleModule.countDocuments()
     const list = await this.articleModule.find().skip(currentPage).limit(pageSize)
     // for(let i = 0; i < list.length; i++) {
-      // let result = await this.articleEntity.create({
-      //   author: 'lijiang',
-      //   articleId: JSON.stringify(list[i]._id),
-      //   articleImgUrl: list[i].articleImgUrl,
-      //   articleFileUrl: list[i].articleFileUrl,
-      // })
-      // await this.articleEntity.save(result)
-      // let res = await this.articleEntity.findOne({
-      //   where: {
-      //     id: list[i]._id
-      //   }
-      // })
+    //   let result = await this.articleEntity.create({
+    //     author: 'lijiang',
+    //     articleId: JSON.stringify(list[i]._id).replaceAll('"', ""),
+    //     articleImgUrl: list[i].articleImgUrl,
+    //     articleFileUrl: list[i].articleFileUrl,
+    //   })
+    //   await this.articleEntity.save(result)
     // }
     let pageMsg : pageMsgDto = {
       currentPage,
@@ -152,6 +148,39 @@ export class ArticleService {
       console.log(result)
       return result
     } catch (error) {
+      return error
+    }
+  }
+  /**
+   * 修改文章的封面图片路径
+   */
+  async changeArticleImgPath(path: string, id: string) {
+    try {
+      let res = await this.articleModule.findOneAndUpdate({_id: id}, {articleImgUrl: path} ,{ new: true })
+      console.log(res)
+      let article = await this.articleEntity.findOne({
+        where: {
+          articleId: id
+        }
+      })
+      if(article) {
+        article.articleImgUrl = path;
+        let result = await this.articleEntity.createQueryBuilder()
+        .update(ArticleEntity)
+        .set({articleImgUrl: path})
+        .where('articleId= :id', {id})
+        .execute()
+        console.log(result)
+        if(result.affected > 0) {
+          return '保存成功'
+        } else {
+          throw new Error('保存失败')
+        }
+      } else {
+        throw new Error('保存失败')
+      }
+    } catch (error) {
+      console.log(error)
       return error
     }
   }

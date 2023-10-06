@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as iconv from 'iconv-lite';
 const path = require('path')
+import { Buffer } from 'node:buffer';
 
 @Injectable()
 export class AuthService {
@@ -19,11 +20,29 @@ export class AuthService {
     return null;
   }
 
-  saveFile(file: Express.Multer.File): Promise<any> {
-    const decodedName = iconv.decode(Buffer.from(file.originalname, 'binary'), 'utf-8')
-    let fileName = Date.now() + decodedName
-    const dirPath = path.dirname(path.join(__dirname, '../../public/articleFile'));
-    let filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
+  /**
+   * 保存前端传的文件的方法
+   * @param file 要保存的文件 
+   * @param origin 保存的类型
+   */
+  saveFile(file: Express.Multer.File, origin?: String): Promise<any> {
+    let { originalname, mimetype, size } = file
+    const decodedName = iconv.decode(Buffer.from(originalname, 'binary'), 'utf-8').replace(/[()]/g, '')
+    let dirPath = ""
+    let filePath = ""
+    let fileName = ""
+    let absolutePath = ""
+    if(origin) {
+      fileName = Date.now() + decodedName
+      dirPath = path.join(__dirname, '../../public/' + origin)
+      filePath = path.join(__dirname, `../../public/${origin}/${fileName}`)
+      absolutePath = `/public/${origin}/${fileName}`
+    } else {
+      fileName = Date.now() + decodedName
+      dirPath = path.dirname(path.join(__dirname, '../../public/articleFile'));
+      filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
+      absolutePath = '/public/articleFile/' + fileName
+    }
     return new Promise((res, rej) => {
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true });
@@ -34,12 +53,13 @@ export class AuthService {
           rej(err)
         } else {
           console.log('File saved successfully.');
-          res('保存成功')
+          // 缺失逻辑，如果是替换的话，需删除旧的文件
+          res(absolutePath)
         }
       });
     })
   }
-  
+
   /**
    * 随机生成一定长度的字符串
    * @param startStr 随机字符串的开头格式，默认为空
