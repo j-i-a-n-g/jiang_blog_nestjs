@@ -39,7 +39,7 @@ export class AuthService {
       absolutePath = `/${origin}/${fileName}`
     } else {
       fileName = Date.now() + decodedName
-      dirPath = path.dirname(path.join(__dirname, '../../public/articleFile'));
+      dirPath = path.join(__dirname, '../../public/articleFile');
       filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
       absolutePath = '/articleFile/' + fileName
     }

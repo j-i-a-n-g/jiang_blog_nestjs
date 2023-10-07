@@ -36,6 +36,7 @@ export class ArticleController {
     type: ArticleDto
    })
   async saveArticle(@Body() articledto: ArticleDto) {
+    console.log(articledto)
     return await this.articleService.saveArticle(articledto)
   }
 
@@ -110,15 +111,23 @@ export class ArticleController {
   @Post("reviseArticle")
   async reviseArticleContent(@Body() data: ArticleContent) {
     let { value, path } = data;
-    this.authService.saveContentIntoFile(value, path)
-    return ""
+    return this.authService.saveContentIntoFile(value, path)
   }
 
   /**
-   * 删除上传的文章文件
+   * 上传文章图片
    */
-  // @Post('deleteFile')
-  // async deleteFile(@Body() articleFileDto: ArticleFileDto) {
+  @Post('uploadArticleImg')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadArticleImg(@UploadedFile() file: Express.Multer.File) {
+    return await this.authService.saveFile(file, 'articleImg')
+  }
+
+  /**
+   * 上传文件
+   */
+  // @Post()
+  // async uploadFile(@Body() File: Express.Multer.File) {
 
   // }
 }

@@ -5,8 +5,8 @@ export type ArticleDocument = Article & Document;
 
 @Schema()
 export class Article extends Document {
-  @Prop({ required: true })
-  articleid: string
+  @Prop()
+  articleId: string
 
   @Prop({ required: true })
   articleTitle: string;

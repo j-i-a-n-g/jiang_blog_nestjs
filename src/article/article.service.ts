@@ -11,6 +11,8 @@ import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 import { ArticleChangeDto } from './dto/articleChange.dto';
 import { Article_Tag } from 'src/article_tag/entities/article_tag.entity';
 import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
+import { AuthService } from 'src/common/module/auth/auth.service';
+import { ChangeArticleHot } from './dto/changeArticleHot.dto';
 
 @Injectable()
 export class ArticleService {
@@ -20,7 +22,8 @@ export class ArticleService {
     @InjectRepository(ArticleEntity)
     private articleEntity: Repository<ArticleEntity>,
     @InjectRepository(Article_Tag)
-    private articleTag: Repository<Article_Tag>
+    private articleTag: Repository<Article_Tag>,
+    private readonly authService: AuthService
   ) {}
 
   
@@ -59,22 +62,24 @@ export class ArticleService {
       // 文章所属标签
       tagList = []
     } = articledto
+    let modleArticle = await this.articleModule.create({
+      articleTitle,
+      articleDesc,
+      articleFileUrl,
+      articleImgUrl,
+      articleHot,
+    })
     let result = await this.articleEntity.create({
       author,
       createTime: new Date(),
       updateTime: new Date(),
       articleFileUrl,
       articleImgUrl,
+      articleId: JSON.stringify(modleArticle._id).replaceAll('"', ''),
       posts: tagList
     })
-    let sqlArticle = await this.articleEntity.save(result)
-    let modleArticle = await this.articleModule.create({
-      articleTitle,
-      articleDesc,
-      articleFileUrl,
-      articleHot,
-      articleid: sqlArticle.id
-    })
+    await this.articleEntity.save(result)
+    
     return modleArticle
   }
   /**
@@ -141,7 +146,7 @@ export class ArticleService {
   /**
    * 修改文章推荐状态
    */
-  async changeArticleHot(article: ArticleDto) {
+  async changeArticleHot(article: ChangeArticleHot) {
     let { id, articleHot } = article
     let result = await this.articleModule.updateOne({id}, {articleHot})
     console.log(result)
@@ -180,11 +185,10 @@ export class ArticleService {
         .set({articleImgUrl: path})
         .where('articleId= :id', {id})
         .execute()
-        console.log(result)
         if(result.affected > 0) {
           return '保存成功'
         } else {
-          throw new Error('保存失败')
+          return '失败'
         }
       } else {
         throw new Error('保存失败')

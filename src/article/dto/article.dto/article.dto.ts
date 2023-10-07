@@ -4,16 +4,18 @@ import { Article_Tag } from "src/article_tag/entities/article_tag.entity";
 
 export class ArticleDto {
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   id: string;
   
   @IsNotEmpty()
   @ApiProperty({required: true, description: '作者'})
   author: string;
 
+  @IsNotEmpty()
   @ApiProperty({required: true, description: '文章标题'})
   articleTitle: string;
 
+  @IsNotEmpty()
   @ApiProperty({required: true, description: '文章简介'})
   articleDesc: string;
 
@@ -24,9 +26,11 @@ export class ArticleDto {
   @IsOptional()
   articleHot: boolean = false;
 
+  @IsNotEmpty()
   @ApiProperty({required: true, description: '文章主体内容所在文件url'})
   articleFileUrl: string;
 
+  @IsNotEmpty()
   @ApiProperty({required: true, description: '文章封面图片'})
   articleImgUrl: string;
 
