@@ -62,25 +62,36 @@ export class ArticleService {
       // 文章所属标签
       tagList = []
     } = articledto
-    let modleArticle = await this.articleModule.create({
-      articleTitle,
-      articleDesc,
-      articleFileUrl,
-      articleImgUrl,
-      articleHot,
-    })
-    let result = await this.articleEntity.create({
-      author,
-      createTime: new Date(),
-      updateTime: new Date(),
-      articleFileUrl,
-      articleImgUrl,
-      articleId: JSON.stringify(modleArticle._id).replaceAll('"', ''),
-      posts: tagList
-    })
-    await this.articleEntity.save(result)
+    // 开启事务
+    const session = await this.articleModule.db.startSession();
+    await session.startTransaction()
+    try {
+      let modleArticle = await this.articleModule.create({
+        articleTitle,
+        articleDesc,
+        articleFileUrl,
+        articleImgUrl,
+        articleHot,
+      })
+      let result = await this.articleEntity.create({
+        author,
+        createTime: new Date(),
+        updateTime: new Date(),
+        articleFileUrl,
+        articleImgUrl,
+        articleId: JSON.stringify(modleArticle._id).replaceAll('"', ''),
+        posts: tagList
+      })
+      await this.articleEntity.save(result)
+      await session.commitTransaction();
+      session.endSession()
+      return modleArticle
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession()
+      return error
+    }
     
-    return modleArticle
   }
   /**
    * 删除文章
