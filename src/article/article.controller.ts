@@ -11,6 +11,7 @@ import * as iconv from 'iconv-lite';
 // import { saveFile } from 'src/common/helper';
 import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
 import { AuthService } from 'src/common/module/auth/auth.service';
+import { ArticleContent } from './dto/articleContent.dto';
 
 @ApiTags('article')
 @Controller('article')
@@ -103,6 +104,16 @@ export class ArticleController {
       return err
     })
   }
+  /**
+   * 修改文章内容
+   */
+  @Post("reviseArticle")
+  async reviseArticleContent(@Body() data: ArticleContent) {
+    let { value, path } = data;
+    this.authService.saveContentIntoFile(value, path)
+    return ""
+  }
+
   /**
    * 删除上传的文章文件
    */

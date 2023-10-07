@@ -11,7 +11,6 @@ import { pageMsgDto } from 'src/common/dtos/pagination.dto/pageMsg.dto';
 import { ArticleChangeDto } from './dto/articleChange.dto';
 import { Article_Tag } from 'src/article_tag/entities/article_tag.entity';
 import { ArticleTagChangeDto } from './dto/articleTagChange.dto';
-let mongoose=require('mongoose');
 
 @Injectable()
 export class ArticleService {
@@ -156,8 +155,7 @@ export class ArticleService {
    */
   async changeArticleImgPath(path: string, id: string) {
     try {
-      let res = await this.articleModule.findOneAndUpdate({_id: id}, {articleImgUrl: path} ,{ new: true })
-      console.log(res)
+      await this.articleModule.findOneAndUpdate({_id: id}, {articleImgUrl: path} ,{ new: true })
       let article = await this.articleEntity.findOne({
         where: {
           articleId: id

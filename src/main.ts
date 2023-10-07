@@ -32,7 +32,7 @@ async function bootstrap() {
   // const loggerService = app.get(WINSTON_MODULE_NEST_PROVIDER);
   // app.useGlobalFilters(new HttpExceptionFilter(loggerService))
   app.useGlobalInterceptors(new ResponseInterceptor())
-  app.useStaticAssets(path.join(__dirname, './common/public'), {prefix: '/static'})
+  app.useStaticAssets(path.join(__dirname, './common/public'), {prefix: ''})
   await app.listen(3000);
 }
 bootstrap();

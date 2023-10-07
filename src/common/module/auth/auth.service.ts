@@ -36,12 +36,12 @@ export class AuthService {
       fileName = Date.now() + decodedName
       dirPath = path.join(__dirname, '../../public/' + origin)
       filePath = path.join(__dirname, `../../public/${origin}/${fileName}`)
-      absolutePath = `/static/${origin}/${fileName}`
+      absolutePath = `/${origin}/${fileName}`
     } else {
       fileName = Date.now() + decodedName
       dirPath = path.dirname(path.join(__dirname, '../../public/articleFile'));
       filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
-      absolutePath = '/static/articleFile/' + fileName
+      absolutePath = '/articleFile/' + fileName
     }
     return new Promise((res, rej) => {
       if (!fs.existsSync(dirPath)) {
@@ -58,6 +58,21 @@ export class AuthService {
         }
       });
     })
+  }
+
+  saveContentIntoFile(content: string, articlePath: string) {
+    try {
+      let url = path.resolve(__dirname, '../../public' + articlePath)
+      fs.writeFile(url, content, (err) => {
+        if(err) {
+          throw new Error('写入失败')
+        } else {
+          return '修改成功'
+        }
+      })
+    } catch (error) {
+      return error
+    }
   }
 
   /**
