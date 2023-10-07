@@ -48,7 +48,7 @@ export class ArticleController {
   }
 
   @Delete('deleteArticle')
-  async deleteArticle(@Param('id') id: string) {
+  async deleteArticle(@Query('id') id: string) {
     let reuslt =  await this.articleService.deleteArticle(id)
     if(!reuslt) {
       return new HttpException('删除失败，查无此文件', 500)

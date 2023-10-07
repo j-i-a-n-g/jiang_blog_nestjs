@@ -81,7 +81,19 @@ export class ArticleService {
    * 删除文章
    */
   async deleteArticle(id: string) {
-    return await this.articleModule.findByIdAndDelete(id)
+    try {
+      let moduleResult = await this.articleModule.findByIdAndDelete(id)
+      let entityResult = await this.articleEntity.delete({
+        articleId: id
+      })
+      if(entityResult.affected > 0 && moduleResult) {
+        return '删除成功'
+      } else {
+        return '删除失败'
+      }
+    } catch (error) {
+      return error
+    }
   }
 
   /**
