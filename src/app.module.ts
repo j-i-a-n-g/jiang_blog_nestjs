@@ -17,6 +17,7 @@ import { utilities as nestWinstonModuleUtilities } from 'nest-winston'
 import * as winston from 'winston';
 import { join } from 'path';
 import { LoggerMiddleware } from './common/middeware/logger.middleware';
+import { MusicModule } from './music/music.module';
 const moment = require('moment')
 
 @Module({
@@ -61,6 +62,7 @@ const moment = require('moment')
     ArticleTagModule,
     AuthModule,
     ArticleModule,
+    MusicModule,
   ],
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
