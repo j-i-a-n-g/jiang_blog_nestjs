@@ -1,8 +1,8 @@
-import { 
+import {
   Entity,
   PrimaryGeneratedColumn,
   Column
- } from "typeorm";
+} from "typeorm";
 
 
 @Entity()

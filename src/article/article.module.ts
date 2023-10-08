@@ -10,11 +10,11 @@ import { AuthModule } from 'src/common/module/auth/auth.module';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{name: Article.name, schema: ArticleSchema}]),
+    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]),
     TypeOrmModule.forFeature([ArticleEntity, Article_Tag]),
     AuthModule
   ],
   controllers: [ArticleController],
   providers: [ArticleService],
 })
-export class ArticleModule {}
+export class ArticleModule { }

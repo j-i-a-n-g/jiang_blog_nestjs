@@ -11,7 +11,7 @@ export class ArticleTagService {
     @InjectRepository(Article_Tag)
     private articleTag: Repository<Article_Tag>,
     private readonly authService: AuthService
-  ){}
+  ) { }
 
   async getAllTag() {
     return await this.articleTag.find()
@@ -47,8 +47,8 @@ export class ArticleTagService {
    */
   async deleteTag(tag: string) {
     const entity = await this.articleTag.delete({ tag });
-    if(entity){
-        return '删除成功'
+    if (entity) {
+      return '删除成功'
     } else {
       return new HttpException('删除失败', 500)
     }

@@ -17,16 +17,16 @@ import { ChangeArticleHot } from './dto/changeArticleHot.dto';
 @Injectable()
 export class ArticleService {
   constructor(
-    @InjectModel('Article') 
+    @InjectModel('Article')
     private articleModule: Model<ArticleDocument>,
     @InjectRepository(ArticleEntity)
     private articleEntity: Repository<ArticleEntity>,
     @InjectRepository(Article_Tag)
     private articleTag: Repository<Article_Tag>,
     private readonly authService: AuthService
-  ) {}
+  ) { }
 
-  
+
   async getArticleList(pagination: PaginationDto) {
     const { currentPage, pageSize, offset } = pagination;
     const total: number = await this.articleModule.countDocuments()
@@ -40,7 +40,7 @@ export class ArticleService {
     //   })
     //   await this.articleEntity.save(result)
     // }
-    let pageMsg : pageMsgDto = {
+    let pageMsg: pageMsgDto = {
       currentPage,
       pageSize,
       total
@@ -91,7 +91,7 @@ export class ArticleService {
       session.endSession()
       return new HttpException(error, 500)
     }
-    
+
   }
   /**
    * 删除文章
@@ -102,7 +102,7 @@ export class ArticleService {
       let entityResult = await this.articleEntity.delete({
         articleId: id
       })
-      if(entityResult.affected > 0 && moduleResult) {
+      if (entityResult.affected > 0 && moduleResult) {
         return '删除成功'
       } else {
         return new HttpException('删除失败', 500)
@@ -118,8 +118,8 @@ export class ArticleService {
   async reviseArticleTitle(articleChangeDto: ArticleChangeDto) {
     try {
       let { _id, articleTitle, articleDesc } = articleChangeDto
-      let result = await this.articleModule.updateOne({_id}, {articleTitle, articleDesc})
-      if(result.modifiedCount > 0) {
+      let result = await this.articleModule.updateOne({ _id }, { articleTitle, articleDesc })
+      if (result.modifiedCount > 0) {
         return '修改成功'
       } else {
         return new HttpException('修改失败，稍后重试', 500)
@@ -135,10 +135,10 @@ export class ArticleService {
 
   async getArticleTagList(id: string) {
     let loop = await this.articleModule.findById(id) as any
-    if(loop && loop.articleTagList) {
+    if (loop && loop.articleTagList) {
       let tagsList = loop.articleTagList
       let result = []
-      for(let i = 0; i < tagsList.length; i++) {
+      for (let i = 0; i < tagsList.length; i++) {
         let tagObj = await this.articleTag.findOne({
           where: {
             tagName: tagsList[i].tagName
@@ -156,7 +156,7 @@ export class ArticleService {
    */
   async changeArticleHot(article: ChangeArticleHot) {
     let { id, articleHot } = article
-    let result = await this.articleModule.updateOne({id}, {articleHot})
+    let result = await this.articleModule.updateOne({ id }, { articleHot })
     return result
   }
 
@@ -166,7 +166,7 @@ export class ArticleService {
   async reviseArticleTagList(article: ArticleTagChangeDto) {
     try {
       let { id, tagList } = article
-      let result = await this.articleModule.updateOne({id}, {tagList})
+      let result = await this.articleModule.updateOne({ id }, { tagList })
       return result
     } catch (error) {
       return new HttpException(error, 500)
@@ -177,20 +177,20 @@ export class ArticleService {
    */
   async changeArticleImgPath(path: string, id: string) {
     try {
-      await this.articleModule.findOneAndUpdate({_id: id}, {articleImgUrl: path} ,{ new: true })
+      await this.articleModule.findOneAndUpdate({ _id: id }, { articleImgUrl: path }, { new: true })
       let article = await this.articleEntity.findOne({
         where: {
           articleId: id
         }
       })
-      if(article) {
+      if (article) {
         article.articleImgUrl = path;
         let result = await this.articleEntity.createQueryBuilder()
-        .update(ArticleEntity)
-        .set({articleImgUrl: path})
-        .where('articleId= :id', {id})
-        .execute()
-        if(result.affected > 0) {
+          .update(ArticleEntity)
+          .set({ articleImgUrl: path })
+          .where('articleId= :id', { id })
+          .execute()
+        if (result.affected > 0) {
           return '保存成功'
         } else {
           return new HttpException('保存失败', 500)

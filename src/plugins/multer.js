@@ -1,13 +1,13 @@
-const multer  = require('multer')
+const multer = require('multer')
 const path = require('path')
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { // 上传文件的存储位置
-    if(file.originalname.endsWith('.md') || file.originalname.endsWith('.txt')) {
+    if (file.originalname.endsWith('.md') || file.originalname.endsWith('.txt')) {
       cb(null, path.resolve(__dirname, '../../public/fulltext'))
-    } else if(file.originalname.endsWith('.png') 
-    || file.originalname.endsWith('.jpg')
-    ||file.originalname.endsWith('.jpeg')) {
+    } else if (file.originalname.endsWith('.png')
+      || file.originalname.endsWith('.jpg')
+      || file.originalname.endsWith('.jpeg')) {
       cb(null, path.resolve(__dirname, '../../public/img'))
     } else {
       cb(null, path.resolve(__dirname, '../../public/other'))

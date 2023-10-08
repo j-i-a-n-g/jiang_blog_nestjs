@@ -5,7 +5,7 @@ export class ArticleTagChangeDto {
 
   @IsNotEmpty()
   id: string
-  
+
   @IsNotEmpty()
   tagList: Array<Article_Tag>;
 

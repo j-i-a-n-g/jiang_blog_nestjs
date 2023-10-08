@@ -6,35 +6,35 @@ export class ArticleDto {
 
   // @IsNotEmpty()
   id: string;
-  
+
   @IsNotEmpty()
-  @ApiProperty({required: true, description: '作者'})
+  @ApiProperty({ required: true, description: '作者' })
   author: string;
 
   @IsNotEmpty()
-  @ApiProperty({required: true, description: '文章标题'})
+  @ApiProperty({ required: true, description: '文章标题' })
   articleTitle: string;
 
   @IsNotEmpty()
-  @ApiProperty({required: true, description: '文章简介'})
+  @ApiProperty({ required: true, description: '文章简介' })
   articleDesc: string;
 
-  @ApiProperty({required: false, description: '创建日期'})
+  @ApiProperty({ required: false, description: '创建日期' })
   createDate: Date;
 
-  @ApiProperty({required: false, description: '是否推荐,默认否'})
+  @ApiProperty({ required: false, description: '是否推荐,默认否' })
   @IsOptional()
   articleHot: boolean = false;
 
   @IsNotEmpty()
-  @ApiProperty({required: true, description: '文章主体内容所在文件url'})
+  @ApiProperty({ required: true, description: '文章主体内容所在文件url' })
   articleFileUrl: string;
 
   @IsNotEmpty()
-  @ApiProperty({required: true, description: '文章封面图片'})
+  @ApiProperty({ required: true, description: '文章封面图片' })
   articleImgUrl: string;
 
-  @ApiProperty({required: false, description: '文章相关标签'})
+  @ApiProperty({ required: false, description: '文章相关标签' })
   @IsOptional()
   tagList: Array<Article_Tag> = [];
 

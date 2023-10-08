@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as iconv from 'iconv-lite';
 const path = require('path')
 
-const saveFile = function(file: Express.Multer.File): Promise<any> {
+const saveFile = function (file: Express.Multer.File): Promise<any> {
   const decodedName = iconv.decode(Buffer.from(file.originalname, 'binary'), 'utf-8')
   let fileName = Date.now() + decodedName
   const dirPath = path.dirname(path.join(__dirname, '../../public/articleFile'));
@@ -29,14 +29,14 @@ const saveFile = function(file: Express.Multer.File): Promise<any> {
  * @param length 随机字符串长度
  * @returns string
  */
-const generateRandomString = function(startStr: string = "", length: number = 12) : string {
+const generateRandomString = function (startStr: string = "", length: number = 12): string {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let randomString : string = startStr;
+  let randomString: string = startStr;
   let startlen = 0;
-  if(startStr) {
+  if (startStr) {
     startlen = startStr.length
   }
-  for(let i = 0; i < length - startlen; i++) {
+  for (let i = 0; i < length - startlen; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     randomString += characters.charAt(randomIndex);
   }

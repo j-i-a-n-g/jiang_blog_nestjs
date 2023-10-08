@@ -11,4 +11,4 @@ import { AuthModule } from 'src/common/module/auth/auth.module';
   controllers: [ArticleTagController],
   providers: [ArticleTagService]
 })
-export class ArticleTagModule {}
+export class ArticleTagModule { }

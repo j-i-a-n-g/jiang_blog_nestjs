@@ -4,7 +4,7 @@ export class ArticleChangeDto {
 
   @IsNotEmpty()
   _id: string
-  
+
   @IsOptional()
   articleTitle: string;
 

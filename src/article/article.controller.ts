@@ -19,7 +19,7 @@ export class ArticleController {
   constructor(
     private readonly articleService: ArticleService,
     private readonly authService: AuthService
-  ) {}
+  ) { }
   /**
    * 获取文章列表
    * @returns Array
@@ -34,7 +34,7 @@ export class ArticleController {
   @Post('saveArticle')
   @ApiBody({
     type: ArticleDto
-   })
+  })
   async saveArticle(@Body() articledto: ArticleDto) {
     console.log(articledto)
     return await this.articleService.saveArticle(articledto)
@@ -50,8 +50,8 @@ export class ArticleController {
 
   @Delete('deleteArticle')
   async deleteArticle(@Query('id') id: string) {
-    let reuslt =  await this.articleService.deleteArticle(id)
-    if(!reuslt) {
+    let reuslt = await this.articleService.deleteArticle(id)
+    if (!reuslt) {
       return new HttpException('删除失败，查无此文件', 500)
     }
     return reuslt
@@ -68,9 +68,9 @@ export class ArticleController {
     return await this.articleService.reviseArticleTitle(articleChangeDto)
   }
 
-    /**
-   * 获取文章相关的tag
-   */
+  /**
+ * 获取文章相关的tag
+ */
   @Get('getArticleTagList')
   async getArticleTagList(@Query('id') id: string) {
     return await this.articleService.getArticleTagList(id)
@@ -88,7 +88,7 @@ export class ArticleController {
    * 修改文章的关联tag
    */
   @Post('reviseArticleTagList')
-  async reviseArticleTagList(@Body()  article: ArticleTagChangeDto) {
+  async reviseArticleTagList(@Body() article: ArticleTagChangeDto) {
     return await this.articleService.reviseArticleTagList(article)
   }
 

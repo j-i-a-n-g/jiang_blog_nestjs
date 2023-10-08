@@ -9,10 +9,10 @@ import { Buffer } from 'node:buffer';
 export class AuthService {
   constructor(
     private userService: UserService
-  ) {}
+  ) { }
 
   async validateUser(username: string, password: string): Promise<any> {
-    const user = await this.userService.rootLogin({username, password});
+    const user = await this.userService.rootLogin({ username, password });
     if (user && user.password === password) {
       const { password, ...result } = user;
       return result;
@@ -32,7 +32,7 @@ export class AuthService {
     let filePath = ""
     let fileName = ""
     let absolutePath = ""
-    if(origin) {
+    if (origin) {
       fileName = Date.now() + decodedName
       dirPath = path.join(__dirname, '../../public/' + origin)
       filePath = path.join(__dirname, `../../public/${origin}/${fileName}`)
@@ -64,7 +64,7 @@ export class AuthService {
     try {
       let url = path.resolve(__dirname, '../../public' + articlePath)
       fs.writeFile(url, content, (err) => {
-        if(err) {
+        if (err) {
           throw new Error('写入失败')
         } else {
           return '修改成功'
@@ -81,15 +81,15 @@ export class AuthService {
    * @param length 随机字符串长度
    * @returns string
    */
-  generateRandomString(startStr: string = "", length: number = 12) : string {
+  generateRandomString(startStr: string = "", length: number = 12): string {
     // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const characters = '0123456789';
-    let randomString : string = startStr + '-';
-    for(let i = 0; i < length; i++) {
+    let randomString: string = startStr + '-';
+    for (let i = 0; i < length; i++) {
       const randomIndex = Math.floor(Math.random() * characters.length);
       randomString += characters.charAt(randomIndex);
     }
-  
+
     return randomString
-  }  
+  }
 }

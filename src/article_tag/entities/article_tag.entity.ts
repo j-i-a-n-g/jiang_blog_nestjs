@@ -1,12 +1,12 @@
 import { ArticleEntity } from "src/article/entities/article.entity";
-import { 
+import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToMany
- } from "typeorm";
+} from "typeorm";
 
 @Entity()
 export class Article_Tag {

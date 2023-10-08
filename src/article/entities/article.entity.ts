@@ -1,18 +1,18 @@
 import { Schema } from "mongoose";
 import { Article_Tag } from "src/article_tag/entities/article_tag.entity";
-import { 
+import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToMany
- } from "typeorm";
+} from "typeorm";
 
 
-@Entity({name: 'article'})
+@Entity({ name: 'article' })
 export class ArticleEntity {
-  
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,7 +26,7 @@ export class ArticleEntity {
     {
       type: 'timestamp',
       comment: '创建时间',
-      name:'createTime'
+      name: 'createTime'
     }
   )
   createTime: Date;
@@ -40,12 +40,12 @@ export class ArticleEntity {
   )
   updateTime: Date | null;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   articleImgUrl: string | null;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   articleFileUrl: string | null;
 
-  @ManyToMany(() =>Article_Tag, (post) => post.id)
+  @ManyToMany(() => Article_Tag, (post) => post.id)
   posts: Array<Article_Tag>
 }

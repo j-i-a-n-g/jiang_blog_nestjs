@@ -9,7 +9,7 @@ import { Query } from 'mongoose';
 export class ArticleTagController {
   constructor(
     private readonly articleTagService: ArticleTagService
-  ) {}
+  ) { }
 
   @Get()
   async getAllTag() {
@@ -20,7 +20,7 @@ export class ArticleTagController {
   @ApiBody({
     type: ArticleTagDto,
     required: true,
-   })
+  })
   async createNewTag(@Body() articleTag: ArticleTagDto) {
     return await this.articleTagService.createNewTag(articleTag)
   }
@@ -33,7 +33,7 @@ export class ArticleTagController {
   @Get('redict')
   @Redirect('http://localhost:3001')
   test() {
-    return {url: 'http://localhost:3000/articleTag'}
+    return { url: 'http://localhost:3000/articleTag' }
   }
 
   @Post('addTag')

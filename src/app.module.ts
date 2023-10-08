@@ -17,7 +17,7 @@ import { utilities as nestWinstonModuleUtilities } from 'nest-winston'
 import * as winston from 'winston';
 import { join } from 'path';
 import { LoggerMiddleware } from './common/middeware/logger.middleware';
-const moment = require('moment') 
+const moment = require('moment')
 
 @Module({
   imports: [
@@ -57,7 +57,7 @@ const moment = require('moment')
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/blog'),
     TypeOrmModule.forFeature([User, Article_Tag, ArticleEntity]),
-    MongooseModule.forFeature([{name: Article.name, schema: ArticleSchema}]),
+    MongooseModule.forFeature([{ name: Article.name, schema: ArticleSchema }]),
     ArticleTagModule,
     AuthModule,
     ArticleModule,

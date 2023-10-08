@@ -13,7 +13,7 @@ export class UserService {
     private userEntity: Repository<User>,
     // @Inject(forwardRef(() => AuthService))
     // private readonly authService: AuthService
-  ) {}
+  ) { }
 
   async rootLogin(rootMsg: LoginUserDto) {
     let root = await this.userEntity.findOne({
@@ -21,14 +21,14 @@ export class UserService {
         username: rootMsg.username
       }
     })
-    if(root) {
+    if (root) {
       let result = await this.userEntity.findOne({
         where: {
           username: rootMsg.username,
           password: rootMsg.password
         }
       })
-      if(result) {
+      if (result) {
         return result
       } else {
         throw new NotFoundException(`Password Error`)
@@ -47,17 +47,17 @@ export class UserService {
     if (user) {
       throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
     }
-    function generateRandomString(startStr: string = "", length: number = 12) : string {
+    function generateRandomString(startStr: string = "", length: number = 12): string {
       // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       const characters = '0123456789';
-      let randomString : string = startStr + '-';
-      for(let i = 0; i < length; i++) {
+      let randomString: string = startStr + '-';
+      for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         randomString += characters.charAt(randomIndex);
       }
-    
+
       return randomString
-    }  
+    }
     let userObj = {
       username,
       userTag: generateRandomString('USER', 12),
@@ -69,7 +69,7 @@ export class UserService {
     const newUser = await this.userEntity.create(userObj);
     return await this.userEntity.save(newUser)
   }
-  
+
   async logout(userMsg: LoginUserDto) {
     let result = await this.userEntity.findOne({
       where: {
