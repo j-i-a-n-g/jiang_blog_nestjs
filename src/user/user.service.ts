@@ -1,5 +1,5 @@
 import { CreateUserDto } from './dto/create_user.dto';
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, NotFoundException, forwardRef } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
@@ -11,6 +11,7 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private userEntity: Repository<User>,
+    // @Inject(forwardRef(() => AuthService))
     // private readonly authService: AuthService
   ) {}
 
@@ -46,10 +47,20 @@ export class UserService {
     if (user) {
       throw new HttpException('用户名已存在', HttpStatus.BAD_REQUEST);
     }
-
+    function generateRandomString(startStr: string = "", length: number = 12) : string {
+      // const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const characters = '0123456789';
+      let randomString : string = startStr + '-';
+      for(let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomString += characters.charAt(randomIndex);
+      }
+    
+      return randomString
+    }  
     let userObj = {
       username,
-      // userTag: this.authService.generateRandomString('USER', 12),
+      userTag: generateRandomString('USER', 12),
       password,
       userAvatar: '',
       createDate: new Date(),

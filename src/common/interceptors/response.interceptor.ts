@@ -12,10 +12,18 @@ implements NestInterceptor<T, Response<T>> {
   : Observable<Response<T>> {
     return next.handle().pipe(
       map(data => {
-        return {
-          data,
-          code: 200,
-          message: "请求成功"
+        if(typeof data == 'string') {
+          return {
+            data,
+            code: 200,
+            message: data
+          }
+        } else {
+          return {
+            data,
+            code: 200,
+            message: "请求成功"
+          }
         }
       })
     );

@@ -89,7 +89,7 @@ export class ArticleService {
     } catch (error) {
       await session.abortTransaction();
       session.endSession()
-      return error
+      return new HttpException(error, 500)
     }
     
   }
@@ -105,10 +105,10 @@ export class ArticleService {
       if(entityResult.affected > 0 && moduleResult) {
         return '删除成功'
       } else {
-        return '删除失败'
+        return new HttpException('删除失败', 500)
       }
     } catch (error) {
-      return error
+      return new HttpException(error, 500)
     }
   }
 
@@ -120,7 +120,7 @@ export class ArticleService {
       let { _id, articleTitle, articleDesc } = articleChangeDto
       let result = await this.articleModule.updateOne({_id}, {articleTitle, articleDesc})
       if(result.modifiedCount > 0) {
-        return null
+        return '修改成功'
       } else {
         return new HttpException('修改失败，稍后重试', 500)
       }
@@ -135,8 +135,6 @@ export class ArticleService {
 
   async getArticleTagList(id: string) {
     let loop = await this.articleModule.findById(id) as any
-    console.log(loop)
-    console.log(loop.articleTagList)
     if(loop && loop.articleTagList) {
       let tagsList = loop.articleTagList
       let result = []
@@ -148,7 +146,6 @@ export class ArticleService {
         })
         result.push(tagObj)
       }
-      console.log(result)
       return result
     } else {
       return loop
@@ -160,7 +157,6 @@ export class ArticleService {
   async changeArticleHot(article: ChangeArticleHot) {
     let { id, articleHot } = article
     let result = await this.articleModule.updateOne({id}, {articleHot})
-    console.log(result)
     return result
   }
 
@@ -170,12 +166,10 @@ export class ArticleService {
   async reviseArticleTagList(article: ArticleTagChangeDto) {
     try {
       let { id, tagList } = article
-      console.log(id, tagList)
       let result = await this.articleModule.updateOne({id}, {tagList})
-      console.log(result)
       return result
     } catch (error) {
-      return error
+      return new HttpException(error, 500)
     }
   }
   /**
@@ -199,14 +193,13 @@ export class ArticleService {
         if(result.affected > 0) {
           return '保存成功'
         } else {
-          return '失败'
+          return new HttpException('保存失败', 500)
         }
       } else {
-        throw new Error('保存失败')
+        throw new HttpException('保存失败', 500)
       }
     } catch (error) {
-      console.log(error)
-      return error
+      return new HttpException(error, 500)
     }
   }
 
