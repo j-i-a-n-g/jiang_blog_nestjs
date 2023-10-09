@@ -16,6 +16,15 @@ export class MusicEntity {
   m_url: string;
 
   @Column()
+  m_author: string;
+
+  @Column()
+  m_language: string;
+
+  @Column()
+  m_coverImg_url: string;
+
+  @Column()
   m_desc: string;
 
   @Column()

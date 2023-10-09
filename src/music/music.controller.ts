@@ -8,12 +8,43 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class MusicController {
   constructor(private readonly musicService: MusicService) { }
 
+  /**
+   * 上传音频文件方法
+   * @param file 音频文件
+   * @returns 音频文件路径
+   */
   @Post()
   @UseInterceptors(FileInterceptor('file'))
   uploadMusic(
     @UploadedFile() file: Express.Multer.File
   ) {
-    return this.musicService.uploadMusic(file);
+    return this.musicService.uploadMusic(file, 'music/mp3');
+  }
+
+  /**
+   * 上传歌曲歌词文件方法
+   * @param file 歌词文件
+   * @returns 歌词文件路径
+   */
+  @Post('lyrics')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadMusicLyrics(
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    return this.musicService.uploadMusic(file, 'music/lyrics');
+  }
+
+  /**
+   * 上传歌曲封面方法
+   * @param file 封面图片
+   * @returns 图片文件路径
+   */
+  @Post('coverImg')
+  @UseInterceptors(FileInterceptor('file'))
+  uploadMusicCoverImg(
+    @UploadedFile() file: Express.Multer.File
+  ) {
+    return this.musicService.uploadMusic(file, 'music/coverImg');
   }
 
   @Post('create')
@@ -21,7 +52,7 @@ export class MusicController {
     return this.musicService.create(createMusicDto)
   }
 
-  @Get()
+  @Get('getList')
   findAll() {
     return this.musicService.findAll();
   }

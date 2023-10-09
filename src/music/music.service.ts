@@ -13,19 +13,28 @@ export class MusicService {
     @InjectRepository(MusicEntity)
     private musicEntity: Repository<MusicEntity>
   ) { }
-  async uploadMusic(file: Express.Multer.File) {
-    console.log(file)
-    let result = await this.authService.saveFile(file, 'music')
-    console.log(result)
+  async uploadMusic(file: Express.Multer.File, path: string) {
+    let result = await this.authService.saveFile(file, path)
     return result
   }
 
   async create(createMusicDto: CreateMusicDto) {
-
+    let music = await this.musicEntity.create(createMusicDto)
+    music.m_tag = this.authService.generateRandomString('MUSIC', 12)
+    if (!music.m_author) {
+      music.m_author = "(未知)"
+    }
+    if (!music.m_desc) {
+      music.m_desc = "(暂无)"
+    }
+    if (!music.m_language) {
+      music.m_language = "(未知)"
+    }
+    return await this.musicEntity.save(music)
   }
 
-  findAll() {
-    return `This action returns all music`;
+  async findAll() {
+    return await this.musicEntity.find()
   }
 
   findOne(id: number) {

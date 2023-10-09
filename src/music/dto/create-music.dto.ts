@@ -13,6 +13,18 @@ export class CreateMusicDto {
 
   @IsOptional()
   @ApiProperty()
+  m_coverImg_url: string;
+
+  @IsOptional()
+  @ApiProperty()
+  m_author: string;
+
+  @IsOptional()
+  @ApiProperty()
+  m_language: string;
+
+  @IsOptional()
+  @ApiProperty()
   m_desc: string | null;
 
   @IsOptional()
