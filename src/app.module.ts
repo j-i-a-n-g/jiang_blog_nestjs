@@ -64,8 +64,8 @@ const moment = require('moment')
     ArticleModule,
     MusicModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UserController],
+  providers: [AppService, UserService],
 })
 export class AppModule {
   // configure(consumer: MiddlewareConsumer) {

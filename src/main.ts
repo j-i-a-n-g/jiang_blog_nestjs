@@ -23,7 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('api/swagger/index.html', app, document);
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // 过滤掉请求实体中，后端不需要的属性
-    // forbidNonWhitelisted: true, // 如果存在后端不需要的属性，返回报错
+    forbidNonWhitelisted: true, // 如果存在后端不需要的属性，返回报错
     transform: true, // 将传入的实体转换成我们需要的类实例
     transformOptions: {
       enableImplicitConversion: true // 不需要使用@Type()显示指定类型，这里会进行默认转换
