@@ -16,19 +16,22 @@ import { WinstonModule } from 'nest-winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston'
 import * as winston from 'winston';
 import { join } from 'path';
+import { ConfigModule } from '@nestjs/config'
 import { LoggerMiddleware } from './common/middeware/logger.middleware';
 import { MusicModule } from './music/music.module';
 const moment = require('moment')
 
 @Module({
   imports: [
+    // 用于根据不同环境配置不同的键值对
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'admin123',
-      database: 'tea',
+      host: process.env.MYSQL_DATABASE_HOST,
+      port: +process.env.MYSQL_DATABASE_PORT,
+      username: process.env.MYSQL_DATABASE_USER,
+      password: process.env.MYSQL_DATABASE_PASSWORD,
+      database: process.env.MYSQL_DATABASE_NAME,
       synchronize: true, // TyperOrmModule实体和数据库同步
       autoLoadEntities: true, // 自动加载模块而不是指定实体数组
     }),
