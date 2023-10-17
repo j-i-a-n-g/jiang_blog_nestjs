@@ -24,7 +24,12 @@ const moment = require('moment')
 @Module({
   imports: [
     // 用于根据不同环境配置不同的键值对
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      // 可传字符串，如果传数组则根据数组从头到尾找文件，找到文件即停止，用当前文件
+      envFilePath: ['.env', '.development'],
+      // 生产环境时，可能不需要通过.env设置数据库信息了，那么可以配置该属性
+      // ignoreEnvFile: process.env.NODE_ENV !== 'development'
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.MYSQL_DATABASE_HOST,
