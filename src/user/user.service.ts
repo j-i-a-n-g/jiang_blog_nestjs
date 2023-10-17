@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { LoginUserDto } from './dto/login.dto';
+import { ConfigService } from '@nestjs/config';
 // import { AuthService } from 'src/common/module/auth/auth.service';
 
 @Injectable()
@@ -13,7 +14,10 @@ export class UserService {
     private userEntity: Repository<User>,
     // @Inject(forwardRef(() => AuthService))
     // private readonly authService: AuthService
-  ) { }
+    private readonly configService: ConfigService,
+  ) {
+    let host = this.configService.get<String>('MYSQL_DATABASE_HOST')
+  }
 
   async rootLogin(rootMsg: LoginUserDto) {
     let root = await this.userEntity.findOne({
