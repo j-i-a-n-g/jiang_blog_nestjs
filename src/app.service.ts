@@ -6,9 +6,9 @@ export class AppService {
   constructor(
     private readonly authService: AuthService,
   ) { }
-  getHello(): string {
-    return 'Hello World!';
-  }
+  // getHello(): string {
+  //   return 'Hello World!';
+  // }
   async deleteFile(url: string) {
     return await this.authService.deleteFile(url)
   }
