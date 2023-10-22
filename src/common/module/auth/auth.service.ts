@@ -85,14 +85,13 @@ export class AuthService {
    * @param fileUrl 文件相对路径
    */
   deleteFile(fileUrl: string) {
-    let url = path.join(process.cwd(), fileUrl)
-    fs.unlink(url, (error) => {
-      if (error) {
-        return new HttpException('删除失败', 500)
-      } else {
-        return '删除成功'
-      }
-    })
+    let url = path.join(process.cwd(), '/common/public' + fileUrl)
+    try {
+      fs.unlinkSync(url);
+      return '删除成功'
+    } catch (error) {
+      return new HttpException('删除失败', 500)
+    }
   }
 
   /**
