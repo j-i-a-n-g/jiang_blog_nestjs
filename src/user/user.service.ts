@@ -14,9 +14,10 @@ export class UserService {
     private userEntity: Repository<User>,
     // @Inject(forwardRef(() => AuthService))
     // private readonly authService: AuthService
+    // 需要在Module引入ConfigModule，此处才能使用ConfigService
     private readonly configService: ConfigService,
   ) {
-    let host = this.configService.get<String>('MYSQL_DATABASE_HOST')
+    let host = this.configService.get<String>('MYSQL_DATABASE_HOST', 'default value')
   }
 
   async rootLogin(rootMsg: LoginUserDto) {

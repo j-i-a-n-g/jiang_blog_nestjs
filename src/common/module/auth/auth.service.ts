@@ -34,13 +34,17 @@ export class AuthService {
     let absolutePath = ""
     if (origin) {
       fileName = Date.now() + decodedName
-      dirPath = path.join(__dirname, '../../public/' + origin)
-      filePath = path.join(__dirname, `../../public/${origin}/${fileName}`)
+      // dirPath = path.join(__dirname, '../../public/' + origin)
+      // filePath = path.join(__dirname, `../../public/${origin}/${fileName}`)
+      dirPath = path.join(process.cwd(), '/common/public/' + origin);
+      filePath = path.join(process.cwd(), `/common/public/${origin}/${fileName}`)
       absolutePath = `/${origin}/${fileName}`
     } else {
       fileName = Date.now() + decodedName
-      dirPath = path.join(__dirname, '../../public/articleFile');
-      filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
+      // dirPath = path.join(__dirname, '../../public/articleFile');
+      // filePath = path.join(__dirname, '../../public/articleFile/' + fileName)
+      dirPath = path.join(process.cwd(), '/common/public/articleFile');
+      filePath = path.join(process.cwd(), '/common/public/articleFile/' + fileName)
       absolutePath = '/articleFile/' + fileName
     }
     return new Promise((res, rej) => {
@@ -62,7 +66,8 @@ export class AuthService {
 
   saveContentIntoFile(content: string, articlePath: string) {
     try {
-      let url = path.resolve(__dirname, '../../public' + articlePath)
+      // let url = path.resolve(__dirname, '../../public' + articlePath)
+      let url = path.join(process.cwd(), '/common/public' + articlePath)
       fs.writeFile(url, content, (err) => {
         if (err) {
           throw new Error('写入失败')

@@ -3,10 +3,14 @@ import { MusicService } from './music.service';
 import { CreateMusicDto } from './dto/create-music.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('music')
 @Controller('music')
 export class MusicController {
-  constructor(private readonly musicService: MusicService) { }
+  constructor(
+    private readonly musicService: MusicService
+  ) { }
 
   /**
    * 上传音频文件方法

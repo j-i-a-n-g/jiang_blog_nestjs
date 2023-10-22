@@ -12,6 +12,6 @@ import { MusicEntity } from './entities/music.entity';
   // 也可以这样写： { provide: 'STRING_TOKEN', useValue: ["1", "2", "3"] } 使用字符串作为提供者Token，数组作为值 
   // 在service导入时： @Inject("STRING_TOKEN") stringToken: string[]
   // 除了useValue，还有其他的自定义提供者模式 useClass useFactory
-  providers: [{ provide: MusicService, useValue: MusicService }],
+  providers: [{ provide: MusicService, useClass: MusicService }],
 })
 export class MusicModule { }
