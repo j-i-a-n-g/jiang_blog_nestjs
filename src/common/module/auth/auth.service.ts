@@ -1,5 +1,5 @@
 import { UserService } from './../../../user/user.service';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import * as iconv from 'iconv-lite';
 const path = require('path')
@@ -78,6 +78,21 @@ export class AuthService {
     } catch (error) {
       return error
     }
+  }
+
+  /**
+   * 删除已上传文件
+   * @param fileUrl 文件相对路径
+   */
+  deleteFile(fileUrl: string) {
+    let url = path.join(process.cwd(), fileUrl)
+    fs.unlink(url, (error) => {
+      if (error) {
+        return new HttpException('删除失败', 500)
+      } else {
+        return '删除成功'
+      }
+    })
   }
 
   /**
